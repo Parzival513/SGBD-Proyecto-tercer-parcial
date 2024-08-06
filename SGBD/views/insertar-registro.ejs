@@ -1,0 +1,160 @@
+<%- include('layouts/header') %>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    #btn{
+      background-color: #6c757d;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .message {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+      background-color: #e9ecef;
+      border: 1px solid #ced4da;
+    }
+
+    .message.error {
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+      color: #721c24;
+    }
+
+    .message.success {
+      background-color: #d4edda;
+      border-color: #c3e6cb;
+      color: #155724;
+    }
+  </style>
+  <script>
+    function addField() {
+      const container = document.getElementById("registroContainer");
+      const fieldCount = container.children.length;
+
+      const fieldDiv = document.createElement("div");
+      fieldDiv.setAttribute("class", "field-group");
+
+      const campoLabel = document.createElement("label");
+      campoLabel.setAttribute("for", `campoNombre${fieldCount}`);
+      campoLabel.textContent = "Nombre del Campo:";
+
+      const campoInput = document.createElement("input");
+      campoInput.setAttribute("type", "text");
+      campoInput.setAttribute("id", `campoNombre${fieldCount}`);
+      campoInput.setAttribute("name", `campoNombre${fieldCount}`);
+      campoInput.setAttribute("required", true);
+
+      const valorLabel = document.createElement("label");
+      valorLabel.setAttribute("for", `campoValor${fieldCount}`);
+      valorLabel.textContent = "Valor del Campo:";
+
+      const valorInput = document.createElement("input");
+      valorInput.setAttribute("type", "text");
+      valorInput.setAttribute("id", `campoValor${fieldCount}`);
+      valorInput.setAttribute("name", `campoValor${fieldCount}`);
+      valorInput.setAttribute("required", true);
+
+      fieldDiv.appendChild(campoLabel);
+      fieldDiv.appendChild(campoInput);
+      fieldDiv.appendChild(valorLabel);
+      fieldDiv.appendChild(valorInput);
+
+      container.appendChild(fieldDiv);
+    }
+
+    function collectFields() {
+      const fieldGroups = document.querySelectorAll(".field-group");
+      const fields = {};
+
+      fieldGroups.forEach(group => {
+        const nombre = group.querySelector("input[name^='campoNombre']").value;
+        const valor = group.querySelector("input[name^='campoValor']").value;
+        fields[nombre] = valor;
+      });
+
+      document.getElementById("registro").value = JSON.stringify(fields);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const message = urlParams.get('message');
+      const messageType = urlParams.get('type');
+
+      if (message) {
+        const messageContainer = document.getElementById('messageContainer');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${messageType}`;
+        messageDiv.textContent = message;
+        messageContainer.appendChild(messageDiv);
+      }
+    });
+  </script>
+
+  <h1>Insertar Registro</h1>
+  <form action="/insertar-registro" method="POST" onsubmit="collectFields()">
+    <label for="nombreBaseDatos">Nombre de la Base de Datos:</label>
+    <input type="text" id="nombreBaseDatos" name="nombreBaseDatos" required>
+    <br>
+    <label for="nombreTabla">Nombre de la Tabla:</label>
+    <input type="text" id="nombreTabla" name="nombreTabla" required>
+    <br>
+    <div id="registroContainer">
+      <!-- Campos serán añadidos aquí -->
+    </div>
+    <button id="btn" type="button" onclick="addField()">Agregar Campo</button>
+    <br>
+    <input type="hidden" id="registro" name="registro" required>
+    <button type="submit">Insertar</button>
+  </form>
+  <div id="messageContainer"></div>
+
+  <%- include('layouts/footer') %>
