@@ -1,0 +1,111 @@
+<%- include('layouts/header') %>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  form {
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    margin: 10px 0 5px;
+  }
+  input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 5px 0 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  .message {
+    margin: 20px 0;
+    padding: 10px;
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  th {
+    background-color: #f4f4f4;
+  }
+</style>
+
+<div class="container">
+  <h1>Registros</h1>
+  <form action="/mostrar-registros" method="GET">
+    <label for="nombreBaseDatos">Nombre de la Base de Datos:</label>
+    <input type="text" id="nombreBaseDatos" name="nombreBaseDatos" required>
+    <label for="nombreTabla">Nombre de la Tabla:</label>
+    <input type="text" id="nombreTabla" name="nombreTabla" required>
+    <button type="submit">Mostrar</button>
+  </form>
+
+  <% if (typeof mensaje !== 'undefined') { %>
+    <div class="message">
+      <%= mensaje %>
+    </div>
+  <% } %>
+
+  <% if (typeof registros !== 'undefined' && registros.length > 0) { %>
+    <h2>Registros de la tabla <%= nombreTabla %>:</h2>
+    <table>
+      <thead>
+        <tr>
+          <% Object.keys(registros[0]).forEach(function(key) { %>
+            <th><%= key %></th>
+          <% }); %>
+        </tr>
+      </thead>
+      <tbody>
+        <% registros.forEach(function(registro) { %>
+          <tr>
+            <% Object.values(registro).forEach(function(value) { %>
+              <td><%= value %></td>
+            <% }); %>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } else if (typeof registros !== 'undefined') { %>
+    <p>No se encontraron registros en la tabla <%= nombreTabla %>.</p>
+  <% } %>
+</div>
+<%- include('layouts/footer') %>
+

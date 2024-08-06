@@ -1,0 +1,52 @@
+<%- include('layouts/header') %>
+
+<!-- Bootstrap CSS (si no está incluido en el layout) -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <main class="px-3 text-center">
+    <h1 class="display-4">Crea las Mejores Bases de Datos</h1>
+    <p class="lead">Con esta herramienta podrás empezar a conocer las bases de datos y mejorar el rendimiento en tu negocio.</p>
+    <p class="lead">
+      <a href="/crear-base-datos" class="btn btn-primary btn-lg">Crea tu Primera Base de Datos</a>
+    </p>
+    
+    <!-- Información adicional con imágenes -->
+    <div class="row mt-5">
+      <div class="col-md-4">
+        <div class="card">
+          <img src="https://cdn.pixabay.com/photo/2017/01/05/11/57/database-1954920_1280.jpg" class="card-img-top" alt="Imagen de bases de datos">
+          <div class="card-body">
+            <h5 class="card-title">Optimización de Rendimiento</h5>
+            <p class="card-text">Mejora el rendimiento de tu aplicación mediante una estructura de base de datos bien diseñada.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img src="https://cdn.pixabay.com/photo/2016/12/09/18/30/database-schema-1895779_640.png" class="card-img-top" alt="Imagen de consulta SQL">
+          <div class="card-body">
+            <h5 class="card-title">Consultas Eficientes</h5>
+            <p class="card-text">Realiza consultas eficientes y optimizadas para obtener datos de manera rápida y precisa.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img src="https://cdn.pixabay.com/photo/2024/07/10/20/08/data-8886595_640.png" class="card-img-top" alt="Imagen de seguridad">
+          <div class="card-body">
+            <h5 class="card-title">Seguridad de Datos</h5>
+            <p class="card-text">Protege la información con prácticas de seguridad y mantenimiento adecuado de la base de datos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Bootstrap JS y dependencias  -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.11/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<%- include('layouts/footer') %>
