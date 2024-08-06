@@ -1,0 +1,134 @@
+<%- include('layouts/header') %>
+
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .containerone {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 50px auto;
+  }
+
+  h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #555;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .boton {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  .message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    display: none;
+  }
+
+  .message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+</style>
+
+<div class="containerone">
+  <h1>Crear Base de Datos</h1>
+  <form id="databaseForm">
+    <label for="nombreBaseDatos">Nombre de la Base de Datos:</label>
+    <input type="text" id="nombreBaseDatos" name="nombreBaseDatos" required>
+    <button class="boton" type="submit">Crear</button>
+  </form>
+  <div id="message" class="message"></div>
+</div>
+
+<script>
+  document.getElementById('databaseForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const nombreBaseDatos = document.getElementById('nombreBaseDatos').value;
+    const messageDiv = document.getElementById('message');
+    console.log('Enviando solicitud para crear base de datos:', nombreBaseDatos);
+
+    fetch('/crear-base-datos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ nombreBaseDatos: nombreBaseDatos })
+    })
+    .then(response => {
+      console.log('Respuesta recibida del servidor:', response);
+      if (!response.ok) {
+        throw new Error('Error al procesar la solicitud');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Datos recibidos del servidor:', data);
+      if (data.success) {
+        messageDiv.textContent = data.message;
+        messageDiv.className = 'message success';
+      } else {
+        messageDiv.textContent = data.message;
+        messageDiv.className = 'message error';
+      }
+      messageDiv.style.display = 'block';
+    })
+    .catch(error => {
+      console.error('Error en la solicitud:', error);
+      messageDiv.textContent = 'Ocurrió un error inesperado.';
+      messageDiv.className = 'message error';
+      messageDiv.style.display = 'block';
+    });
+  });
+</script>
+
+<%- include('layouts/footer') %>
